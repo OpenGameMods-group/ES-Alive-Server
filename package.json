@@ -1,0 +1,65 @@
+{
+  "name": "es-alive-server",
+  "version": "1.0.0",
+  "description": "Server for a multiplayer modification for the game Endless Sky",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "engines": {
+    "node": "8.11.3",
+    "npm": "6.3.0"
+  },
+  "standard": {
+    "globals": [
+      "$",
+      "jQuery",
+      "fetch"
+    ],
+    "ignore": [
+      "node_modules/**"
+    ],
+    "parser": "babel-eslint",
+    "envs": [
+      "jest",
+      "mocha",
+      "node"
+    ]
+  },
+  "scripts": {
+    "start": "NODE_PATH=. node index.js",
+    "start-watch": "NODE_PATH=. nodemon index.js",
+    "test": "NODE_ENV=test NODE_PATH=. mocha --recursive tests",
+    "test-watch": "nodemon --exec 'npm test'",
+    "lint": "standard",
+    "lint-fix": "standard --fix"
+  },
+  "keywords": [
+    "game",
+    "server"
+  ],
+  "author": "CodeDraken",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.6",
+    "babel-preset-env": "^1.7.0",
+    "expect": "^23.4.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.3",
+    "standard": "^11.0.1",
+    "superagent": "^3.8.3",
+    "supertest": "^3.1.0"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bcrypt": "^3.0.0",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "helmet": "^3.13.0",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.2.7"
+  }
+}
