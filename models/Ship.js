@@ -83,7 +83,7 @@ const shipSchema = new Schema({
     default: 'final explosion medium'
   },
 
-  _owner: { type: Schema.Types.ObjectId, ref: 'User' }
+  _owner: { type: Schema.Types.ObjectId, ref: 'Player' }
 })
 
 const Ship = mongoose.model('Ship', shipSchema)
