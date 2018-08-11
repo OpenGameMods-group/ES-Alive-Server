@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const helmet = require('helmet')
 
 const db = require('models')
-const errorHandler = require('util/error')
+const errorHandler = require('middleware/error')
 
 const app = express()
 
