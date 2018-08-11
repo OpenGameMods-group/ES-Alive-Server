@@ -28,6 +28,11 @@ const shipSchema = new Schema({
     rewind: Boolean
   },
 
+  thumbnail: {
+    type: String,
+    required: true
+  },
+
   attributes: {
     'category': { type: String, required: true },
     '"cost"': { type: Number, required: true },
@@ -44,7 +49,7 @@ const shipSchema = new Schema({
     '"outfit space"': { type: Number, required: true },
     '"weapon capacity"': { type: Number, required: true },
     '"engine capacity"': { type: Number, required: true },
-    '"energy capacity"': { type: Number, required: true },
+    '"energy capacity"': { type: Number, default: 0 },
     '"energy generation"': { type: Number, default: 0 },
     '"shield generation"': { type: Number, default: 0 },
     '"shield energy"': { type: Number, default: 0 },
@@ -81,6 +86,11 @@ const shipSchema = new Schema({
   'final explode': {
     type: String,
     default: 'final explosion medium'
+  },
+
+  // display player info?
+  description: {
+    type: String
   },
 
   _owner: { type: Schema.Types.ObjectId, ref: 'Player' }
