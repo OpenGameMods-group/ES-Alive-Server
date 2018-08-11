@@ -13,6 +13,7 @@ app.use(helmet.hidePoweredBy({ setTo: 'Coffee' }))
 app.use(bodyParser.json())
 
 // routes
+app.use('/api/auth', require('routes/authRoutes'))
 
 // 404 errors
 app.use((req, res, next) => {
