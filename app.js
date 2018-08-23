@@ -18,7 +18,13 @@ app.use(bodyParser.json())
 // routes
 app.use('/api/auth', require('routes/authRoutes'))
 app.use(
-  '/api/players/:id/ships',
+  '/api/pilots/:id',
+  requireLogin,
+  checkAuthorization,
+  require('routes/pilotRoutes')
+)
+app.use(
+  '/api/players/:id/:pilotId/ships',
   requireLogin,
   checkAuthorization,
   require('routes/shipRoutes')

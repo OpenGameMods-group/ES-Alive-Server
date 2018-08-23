@@ -3,6 +3,8 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 
+const { calcShipLevel } = require('util/shipLevel')
+
 const shipSchema = new Schema({
   ship: {
     // ship type
@@ -54,14 +56,14 @@ const shipSchema = new Schema({
     '"outfit space"': { type: Number, required: true },
     '"weapon capacity"': { type: Number, required: true },
     '"engine capacity"': { type: Number, required: true },
-    '"energy capacity"': { type: Number, default: 0 },
-    '"energy generation"': { type: Number, default: 0 },
-    '"shield generation"': { type: Number, default: 0 },
-    '"shield energy"': { type: Number, default: 0 },
-    '"hull repair rate"': { type: Number, default: 0 },
-    '"hull energy"': { type: Number, default: 0 },
-    '"heat generation"': { type: Number, default: 0 },
-    '"ramscoop"': { type: Number, default: 0 },
+    '"energy capacity"': { type: Number, default: null },
+    '"energy generation"': { type: Number, default: null },
+    '"shield generation"': { type: Number, default: null },
+    '"shield energy"': { type: Number, default: null },
+    '"hull repair rate"': { type: Number, default: null },
+    '"hull energy"': { type: Number, default: null },
+    '"heat generation"': { type: Number, default: null },
+    '"ramscoop"': { type: Number, default: null },
     weapon: {
       'blast radius': { type: Number, default: 80 },
       'shield damage': { type: Number, default: 800 },
@@ -108,20 +110,13 @@ shipSchema.pre('save', async function (next) {
     }
 
     // generate the ship level
-    const {
-      '"shields"': shields,
-      '"hull"': hull,
-      '"outfit space"': outfitSpace,
-      '"weapon capacity"': weaponCap,
-      '"engine capacity"': engineCap
-    } = this.attributes
+    this.level = calcShipLevel(this)
 
-    const level = (+shields + +hull + +outfitSpace + +weaponCap + +engineCap) / 1690 >> 0
-
-    this.level = level
+    console.log(this.level, this.ship)
 
     return next()
   } catch (error) {
+    console.log(error)
     return next(error)
   }
 })

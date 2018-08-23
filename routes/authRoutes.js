@@ -6,6 +6,7 @@ const { signup, signin } = require('controllers/authController')
 
 const router = express.Router()
 
+// /api/auth
 router.post('/signup', signup)
 router.post('/signin', signin)
 

@@ -5,6 +5,11 @@ const { Schema } = mongoose
 
 const pilotSchema = new Schema({
 
+  name: {
+    type: String,
+    required: true
+  },
+
   ships: [ {
     // fleet with a limit of 10 ships
     type: mongoose.Schema.Types.ObjectId,
@@ -21,11 +26,11 @@ const pilotSchema = new Schema({
     }
   ],
 
-  level: {
-    // generated on update, based on single ship stats
-    type: Number,
-    default: 0
-  },
+  // level: {
+  //   // generated on update, based on single ship stats
+  //   type: Number,
+  //   default: 0
+  // },
 
   fleetLevel: {
     // combined fleet power + combat rating level
