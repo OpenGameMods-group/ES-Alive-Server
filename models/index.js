@@ -22,6 +22,7 @@ const connection = mongoose.connect(mongoURI, mongooseConfig,
 )
 
 module.exports = {
-  Player: require('./Player'),
-  Ship: require('./Ship')
+  Player: require('models/Player'),
+  Ship: require('models/Ship'),
+  Pilot: require('models/Pilot')
 }

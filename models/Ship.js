@@ -16,6 +16,11 @@ const shipSchema = new Schema({
     required: true
   },
 
+  level: {
+    type: Number,
+    default: 0
+  },
+
   sprite: {
     // ship sprite
     _value: {
@@ -93,7 +98,32 @@ const shipSchema = new Schema({
     type: String
   },
 
-  _owner: { type: Schema.Types.ObjectId, ref: 'Player' }
+  _owner: { type: Schema.Types.ObjectId, ref: 'Pilot' }
+})
+
+shipSchema.pre('save', async function (next) {
+  try {
+    if (!this.isModified('attributes')) {
+      return next()
+    }
+
+    // generate the ship level
+    const {
+      '"shields"': shields,
+      '"hull"': hull,
+      '"outfit space"': outfitSpace,
+      '"weapon capacity"': weaponCap,
+      '"engine capacity"': engineCap
+    } = this.attributes
+
+    const level = (+shields + +hull + +outfitSpace + +weaponCap + +engineCap) / 1690 >> 0
+
+    this.level = level
+
+    return next()
+  } catch (error) {
+    return next(error)
+  }
 })
 
 const Ship = mongoose.model('Ship', shipSchema)
