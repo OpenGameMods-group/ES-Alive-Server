@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose
 
 const { calcShipLevel } = require('util/shipLevel')
+const Pilot = require('models')
 
 const shipSchema = new Schema({
   ship: {
@@ -112,11 +113,30 @@ shipSchema.pre('save', async function (next) {
     // generate the ship level
     this.level = calcShipLevel(this)
 
-    console.log(this.level, this.ship)
-
     return next()
   } catch (error) {
     console.log(error)
+    return next(error)
+  }
+})
+
+// shipSchema.post('save', async function (next) {
+
+// })
+
+shipSchema.pre('remove', async function (next) {
+  try {
+    // find the owner of the message
+    const owner = await Pilot.findById(this._owner)
+
+    // remove id of the message from list
+    owner.pilots.remove(this.id) // mongoose method
+
+    // save user
+    await owner.save()
+
+    return next()
+  } catch (error) {
     return next(error)
   }
 })
