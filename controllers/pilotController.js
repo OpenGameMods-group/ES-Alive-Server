@@ -26,6 +26,27 @@ const newPilot = async (req, res, next) => {
   }
 }
 
+const getPilots = async (req, res, next) => {
+  try {
+    const playerId = req.params.id
+    const levelLimit = req.query.level || Infinity
+
+    // return pilots and populate with their ships
+    // get all pilots that are not the requesting user & within the levelLimit
+    const pilots = await db.Pilot.find({
+      _owner: { $not: { $eq: playerId } },
+      ships: { $not: { $size: 0 } },
+      fleetLevel: { $not: { $gt: levelLimit } }
+    }, '-credits -pendingCredits')
+      .populate('ships')
+
+    res.json(pilots)
+  } catch (error) {
+    return next(error)
+  }
+}
+
 module.exports = {
-  newPilot
+  newPilot,
+  getPilots
 }
