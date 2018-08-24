@@ -14,7 +14,7 @@ router.post('/new', newPilot)
 router.post('/', getPilots)
 
 router.route('/:pilotId')
-  .put(pilotAuthorization, updatePilot)
+  .patch(pilotAuthorization, updatePilot)
   .delete(pilotAuthorization, deletePilot)
 
 module.exports = router

@@ -124,22 +124,22 @@ shipSchema.pre('save', async function (next) {
 
 // })
 
-shipSchema.pre('remove', async function (next) {
-  try {
-    // find the owner of the message
-    const owner = await Pilot.findById(this._owner)
+// shipSchema.pre('remove', async function (next) {
+//   try {
+//     // find the owner of the ship
+//     const owner = await Pilot.findById(this._owner)
 
-    // remove id of the message from list
-    owner.pilots.remove(this.id) // mongoose method
+//     // remove id of the ship from list
+//     owner.pilots.remove(this.id)
 
-    // save user
-    await owner.save()
+//     // save player
+//     await owner.save()
 
-    return next()
-  } catch (error) {
-    return next(error)
-  }
-})
+//     return next()
+//   } catch (error) {
+//     return next(error)
+//   }
+// })
 
 const Ship = mongoose.model('Ship', shipSchema)
 

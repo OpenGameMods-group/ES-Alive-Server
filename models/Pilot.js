@@ -63,7 +63,7 @@ pilotSchema.pre('remove', async function (next) {
     const owner = await Player.findById(this._owner)
 
     // remove id of the pilot from list
-    owner.pilots.remove(this.id)
+    await owner.pilots.remove(this.id)
 
     // remove ships owned by pilot
     await Ship.deleteMany({ _owner: this._id })

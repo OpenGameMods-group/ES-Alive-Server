@@ -1,5 +1,7 @@
 // controllers/pilotController.js - pilot methods
 
+const _ = require('lodash')
+
 const db = require('models')
 
 // /api/pilots/:id
@@ -28,7 +30,19 @@ const newPilot = async (req, res, next) => {
 
 const updatePilot = async (req, res, next) => {
   try {
-    res.json()
+    if (!req.body.updates) {
+      return next(new Error('Please provide updates'))
+    }
+
+    const pilot = req.pilot
+    // allowed updates
+    const updates = _.pick(req.body.updates,
+      [ 'name', 'personality', 'phrases',
+        'credits', 'pendingCredits', 'faction' ])
+
+    const updated = await Object.assign(pilot, updates).save()
+
+    res.json(updated)
   } catch (error) {
     return next.error
   }
