@@ -51,6 +51,9 @@ const pilotSchema = new Schema({
     type: String,
     default: 'Free Worlds'
   }
+},
+{ // settings
+  timestamps: true
 })
 
 pilotSchema.pre('remove', async function (next) {

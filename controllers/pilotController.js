@@ -30,6 +30,7 @@ const getPilots = async (req, res, next) => {
   try {
     const playerId = req.params.id
     const levelLimit = req.query.level || Infinity
+    const { downloadedPilots } = req.body || {}
 
     // return pilots and populate with their ships
     // get all pilots that are not the requesting user & within the levelLimit
@@ -40,7 +41,13 @@ const getPilots = async (req, res, next) => {
     }, '-credits -pendingCredits')
       .populate('ships')
 
-    res.json(pilots)
+    const updatedPilots = pilots
+      .filter(pilot =>
+        pilot.id in downloadedPilots
+          ? pilot.updatedAt > downloadedPilots[pilot.id]
+          : true)
+
+    res.json(updatedPilots)
   } catch (error) {
     return next(error)
   }

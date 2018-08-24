@@ -8,6 +8,6 @@ const router = express.Router({ mergeParams: true })
 
 // /api/pilots/:id
 router.post('/new', newPilot)
-router.get('/', getPilots)
+router.post('/', getPilots)
 
 module.exports = router
