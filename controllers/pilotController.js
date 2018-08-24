@@ -26,6 +26,25 @@ const newPilot = async (req, res, next) => {
   }
 }
 
+const updatePilot = async (req, res, next) => {
+  try {
+    res.json()
+  } catch (error) {
+    return next.error
+  }
+}
+
+const deletePilot = async (req, res, next) => {
+  try {
+    const removed = await req.pilot.remove()
+
+    return res.json(removed)
+  } catch (error) {
+    console.log(error)
+    return next.error
+  }
+}
+
 const getPilots = async (req, res, next) => {
   try {
     const playerId = req.params.id
@@ -55,5 +74,7 @@ const getPilots = async (req, res, next) => {
 
 module.exports = {
   newPilot,
-  getPilots
+  getPilots,
+  updatePilot,
+  deletePilot
 }

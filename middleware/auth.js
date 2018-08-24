@@ -2,6 +2,7 @@
 
 const jwt = require('jsonwebtoken')
 
+const db = require('models')
 const { SECRET_KEY } = require('config/keys')
 
 // require login - authentication
@@ -52,7 +53,30 @@ const checkAuthorization = (req, res, next) => {
   }
 }
 
+const pilotAuthorization = async (req, res, next) => {
+  try {
+    const playerId = req.params.id
+    const pilotId = req.params.pilotId
+
+    const pilot = await db.Pilot.findById(pilotId)
+
+    if (!pilot._owner.equals(playerId)) {
+      return next({ status: 401, message: 'Unauthorized pilot' })
+    }
+
+    req.pilot = pilot
+
+    return next()
+  } catch (error) {
+    return next({
+      status: 404,
+      message: 'Pilot not Found'
+    })
+  }
+}
+
 module.exports = {
   requireLogin,
-  checkAuthorization
+  checkAuthorization,
+  pilotAuthorization
 }

@@ -8,6 +8,7 @@ const createShips = async (req, res, next) => {
   try {
     const ownerId = req.params.id
     const pilotId = req.params.pilotId
+    const pilot = req.pilot
 
     // array of ship objects - 10 max
     const shipsToAdd = req.body.ships
@@ -23,7 +24,6 @@ const createShips = async (req, res, next) => {
     }))
 
     // add ships to owner
-    const pilot = await db.Pilot.findById(pilotId)
     pilot.ships = newShips.map(ship => ship.id)
     pilot.fleetLevel = newShips.reduce((a, b) => a.level + b.level)
 

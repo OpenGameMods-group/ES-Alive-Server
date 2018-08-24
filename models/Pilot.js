@@ -3,7 +3,8 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 
-const Player = require('models')
+const Player = require('models/Player')
+const Ship = require('models/Ship')
 
 const pilotSchema = new Schema({
 
@@ -58,11 +59,14 @@ const pilotSchema = new Schema({
 
 pilotSchema.pre('remove', async function (next) {
   try {
-    // find the owner of the message
+    // find the owner of the pilot
     const owner = await Player.findById(this._owner)
 
-    // remove id of the message from list
-    owner.pilots.remove(this.id) // mongoose method
+    // remove id of the pilot from list
+    owner.pilots.remove(this.id)
+
+    // remove ships owned by pilot
+    await Ship.deleteMany({ _owner: this._id })
 
     // save user
     await owner.save()
