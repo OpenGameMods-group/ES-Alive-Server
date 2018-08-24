@@ -13,7 +13,8 @@ const calcShipLevel = (ship) => {
     '"engine capacity"': engineCap
   } = ship.attributes
 
-  const level = (+shields + +hull + +outfitSpace + +weaponCap + +engineCap) / 1690 >> 0
+  const level = ((+shields + +hull + +outfitSpace + +weaponCap + +engineCap) / 1690) +
+    (ship.outfits ? (Object.keys(ship.outfits).length / 7) - 1 : 0) >> 0
 
   return +level || 0
 }
