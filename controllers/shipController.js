@@ -30,7 +30,7 @@ const createShips = async (req, res, next) => {
     const updatedPilot = await pilot.save()
 
     // send back ships & pilot
-    return res.json({ oldShips, newShips, updatedPilot })
+    return res.json(Object.assign(updatedPilot, { ships: newShips }))
   } catch (error) {
     return next(error)
   }

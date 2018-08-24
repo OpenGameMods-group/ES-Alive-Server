@@ -20,7 +20,7 @@ const newPilot = async (req, res, next) => {
     player.pilots.push(pilot.id)
     const updatedPlayer = await player.save()
 
-    return res.json({ pilot, updatedPilots: updatedPlayer.pilots })
+    return res.json(pilot)
   } catch (error) {
     return next(error)
   }
