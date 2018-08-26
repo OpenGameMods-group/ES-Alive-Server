@@ -25,7 +25,8 @@ const createShips = async (req, res, next) => {
 
     // add ships to owner
     pilot.ships = newShips.map(ship => ship.id)
-    pilot.fleetLevel = newShips.reduce((a, b) => a.level + b.level)
+
+    pilot.fleetLevel = newShips.reduce((a, b) => a + b.level, 0)
 
     const updatedPilot = await pilot.save()
 

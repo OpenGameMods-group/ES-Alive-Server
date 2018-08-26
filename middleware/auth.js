@@ -39,7 +39,7 @@ const checkAuthorization = (req, res, next) => {
 
     // verify that token is legit & it matches the owner of the data
     jwt.verify(token, SECRET_KEY, (err, payload) => {
-      if (err || !payload || payload.id !== req.params.id) {
+      if (err || !payload || payload._id !== req.params.id) {
         return next({ status: 401, message: 'Unauthorized' })
       }
     })

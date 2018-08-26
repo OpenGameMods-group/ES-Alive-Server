@@ -37,12 +37,11 @@ const shipSchema = new Schema({
   },
 
   thumbnail: {
-    type: String,
-    required: true
+    type: String
   },
 
   attributes: {
-    'category': { type: String, required: true },
+    '"category"': { type: String, required: true },
     '"cost"': { type: Number, required: true },
     '"automaton"': { type: Boolean, default: false },
     '"shields"': { type: Number, required: true },

@@ -10,16 +10,16 @@ const signin = async (req, res, next) => {
   try {
     // find the player
     const player = await db.Player.findOne({ username: req.body.username })
-    const { id, username, pilots } = player
+    const { _id, username, pilots } = player
 
     // check if password matches
     const isMatch = await player.comparePassword(req.body.password)
 
     if (isMatch) {
       // login ( using JWT )
-      const token = jwt.sign({ id, username }, SECRET_KEY)
+      const token = jwt.sign({ _id, username }, SECRET_KEY)
 
-      return res.json({ id, username, token, pilots })
+      return res.json({ _id, username, token, pilots })
     } else {
       // not a match
       return next({ status: 400, message: 'Invalid username / password' })
@@ -34,15 +34,15 @@ const signup = async (req, res, next) => {
   try {
     // create a player
     const player = await db.Player.create(req.body)
-    const { id, username, pilots } = player
+    const { _id, username, pilots } = player
 
     // create a token
     const token = jwt.sign(
-      { id, username },
+      { _id, username },
       SECRET_KEY
     )
 
-    return res.json({ id, username, token, pilots })
+    return res.json({ _id, username, token, pilots })
   } catch (error) {
     // validation fails
     if (error.code === 11000) {
