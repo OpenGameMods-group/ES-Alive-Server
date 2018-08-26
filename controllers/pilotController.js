@@ -10,8 +10,11 @@ const db = require('models')
 const newPilot = async (req, res, next) => {
   try {
     const ownerId = req.params.id
+    const { name, credits, faction } = req.body
     const pilot = await new db.Pilot({
-      ...req.body,
+      name,
+      credits,
+      faction,
       _owner: ownerId
     })
       .save()
