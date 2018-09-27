@@ -18,10 +18,10 @@ const newPilot = async (req, res, next) => {
     const existingPilot = await db.Pilot.find({
       _owner: ownerId,
       name
-    })
+    })[0]
 
     if (existingPilot) {
-      return res.json(existingPilot)
+      return res.json(existingPilot[0])
     } else {
       const pilot = await new db.Pilot({
         name,
