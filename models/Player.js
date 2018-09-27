@@ -48,6 +48,26 @@ playerSchema.methods.getPilotNames = async function () {
   }
 }
 
+playerSchema.methods.popPilots = async function () {
+  try {
+    const player = this
+
+    await player.populate({
+      path: 'pilots',
+      model: 'Pilot'
+    }).execPopulate()
+
+    return player.pilots.reduce((acc, pilot) => {
+      acc[pilot._id] = pilot
+
+      return acc
+    }, {})
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
 playerSchema.pre('save', async function (next) {
   try {
     if (!this.isModified('password')) return next()
