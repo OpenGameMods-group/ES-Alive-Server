@@ -11,21 +11,32 @@ const newPilot = async (req, res, next) => {
   try {
     const ownerId = req.params.id
     const { name, credits, faction } = req.body
-    const pilot = await new db.Pilot({
-      name,
-      credits,
-      faction,
-      _owner: ownerId
-    })
-      .save()
 
-    // update Player account
     const player = await db.Player.findById(ownerId)
+    // const playerPilots = await player.getPilotNames()
 
-    player.pilots.push(pilot.id)
-    const updatedPlayer = await player.save()
+    const existingPilot = await db.Pilot.find({
+      _owner: ownerId,
+      name
+    })
 
-    return res.json(pilot)
+    if (existingPilot) {
+      return res.json(existingPilot)
+    } else {
+      const pilot = await new db.Pilot({
+        name,
+        credits,
+        faction,
+        _owner: ownerId
+      }).save()
+
+      // update Player account
+      player.pilots.push(pilot.id)
+
+      await player.save()
+
+      return res.json(pilot)
+    }
   } catch (error) {
     return next(error)
   }
