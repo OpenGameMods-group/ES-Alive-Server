@@ -15,13 +15,13 @@ const newPilot = async (req, res, next) => {
     const player = await db.Player.findById(ownerId)
     // const playerPilots = await player.getPilotNames()
 
-    const existingPilot = await db.Pilot.find({
+    const existingPilot = await db.Pilot.findOne({
       _owner: ownerId,
       name
-    })[0]
+    })
 
     if (existingPilot) {
-      return res.json(existingPilot[0])
+      return res.json(existingPilot)
     } else {
       const pilot = await new db.Pilot({
         name,
