@@ -46,6 +46,7 @@
     "babel-preset-env": "^1.7.0",
     "expect": "^23.4.0",
     "mocha": "^5.2.0",
+    "morgan": "^1.9.1",
     "nodemon": "^1.18.3",
     "standard": "^11.0.1",
     "superagent": "^3.8.3",

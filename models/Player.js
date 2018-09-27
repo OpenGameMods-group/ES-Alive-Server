@@ -22,6 +22,32 @@ const playerSchema = new mongoose.Schema({
   } ]
 })
 
+// playerSchema.pre('findOne', function () {
+//   this.populate('pilots')
+// })
+
+// organize pilots into { id: pilotName }
+playerSchema.methods.getPilotNames = async function () {
+  try {
+    const player = this
+
+    await player.populate({
+      path: 'pilots',
+      model: 'Pilot',
+      select: 'name id'
+    }).execPopulate()
+
+    return player.pilots.reduce((acc, {_id, name}) => {
+      acc[_id] = name
+
+      return acc
+    }, {})
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
 playerSchema.pre('save', async function (next) {
   try {
     if (!this.isModified('password')) return next()

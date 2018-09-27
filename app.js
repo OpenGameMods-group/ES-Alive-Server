@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const helmet = require('helmet')
 const cors = require('cors')
+const morgan = require('morgan')
 
 const db = require('models')
 const errorHandler = require('middleware/error')
@@ -14,6 +15,7 @@ app.use(helmet())
 app.use(helmet.hidePoweredBy({ setTo: 'Coffee' }))
 app.use(cors())
 app.use(bodyParser.json())
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 
 // routes
 app.use('/api/auth', require('routes/authRoutes'))

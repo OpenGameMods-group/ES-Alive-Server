@@ -19,7 +19,9 @@ const signin = async (req, res, next) => {
       // login ( using JWT )
       const token = jwt.sign({ _id, username }, SECRET_KEY)
 
-      return res.json({ _id, username, token, pilots })
+      const pilotIdName = await player.getPilotNames()
+
+      return res.json({ _id, username, token, pilots: pilotIdName })
     } else {
       // not a match
       return next({ status: 400, message: 'Invalid username / password' })
